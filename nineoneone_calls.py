@@ -49,9 +49,14 @@ plt.tight_layout()
 
 
 byMonth = df.groupby('Month').count()
-print(byMonth.head())
-
 #Line Plot of Calls per Month
 fig = plt.figure()
 byMonth['Reason'].plot()
 #plt.show()
+
+
+#Linear Fit of Calls/Month
+byMonth = byMonth.reset_index()
+sns.lmplot(x='Month',y='Reason',data=byMonth)
+plt.show()
+ 

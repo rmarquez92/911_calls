@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.dates as mdates
 
 df = pd.read_csv('911.csv')
 
@@ -35,28 +36,42 @@ df['Day of Week'] = df['Time'].apply(lambda time: time.dayofweek)
 dmap = {0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}
 df['Day of Week'] = df['Day of Week'].apply(lambda dow: dmap[dow])
 
-plt.figure(figsize=(12,6))
-sns.countplot(x='Day of Week', data=df ,hue='Reason')
-plt.legend(bbox_to_anchor=(1.125, 1))
-plt.tight_layout()
-#plt.show()
+def day_of_week_plot(d_f):
+    plt.figure(figsize=(12,6))
+    sns.countplot(x='Day of Week', data=d_f ,hue='Reason')
+    plt.legend(bbox_to_anchor=(1.125, 1))
+    plt.tight_layout()
+    plt.show()
 
-plt.figure(figsize=(12,6))
-sns.countplot(x='Month', data=df ,hue='Reason')
-plt.legend(bbox_to_anchor=(1.125, 1))
-plt.tight_layout()
-#plt.show()
+
+def month_plot(d_f):
+    plt.figure(figsize=(12,6))
+    sns.countplot(x='Month', data=df ,hue='Reason')
+    plt.legend(bbox_to_anchor=(1.125, 1))
+    plt.tight_layout()
+    plt.show()
 
 
 byMonth = df.groupby('Month').count()
+
 #Line Plot of Calls per Month
-fig = plt.figure()
-byMonth['Reason'].plot()
-#plt.show()
+def by_month_line_plot():
+    byMonth['Reason'].plot()
+    plt.show()
 
 
 #Linear Fit of Calls/Month
-byMonth = byMonth.reset_index()
-sns.lmplot(x='Month',y='Reason',data=byMonth)
-plt.show()
- 
+def linear_fit(groupby_month_df):
+    sns.lmplot(x='Month',y='Reason',data=groupby_month_df.reset_index())
+    plt.show()
+
+
+df['Date'] = df['Time'].apply(lambda d: d.date())
+
+def calls_over_time(d_f):
+    df['Date'] = df['Time'].apply(lambda d: d.date())
+    d_f.groupby('Date').count().plot()
+    plt.legend([],framealpha=0)
+    plt.tight_layout()
+
+    plt.show()

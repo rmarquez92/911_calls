@@ -68,10 +68,16 @@ def linear_fit(groupby_month_df):
 
 df['Date'] = df['Time'].apply(lambda d: d.date())
 
-def calls_over_time(d_f):
-    df['Date'] = df['Time'].apply(lambda d: d.date())
-    d_f.groupby('Date').count().plot()
+def calls_over_time(d_f,reason=None):
+    fig, ax = plt.subplots()
+    if reason==None:
+        d_f.groupby('Date').count().plot(ax=ax)
+    elif reason in ['Fire','EMS','Traffic']:
+        df[df['Reason']==reason].groupby('Date').count().plot(ax=ax)
+        plt.title(reason)
+    else:
+        return -1
     plt.legend([],framealpha=0)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %y'))
     plt.tight_layout()
-
     plt.show()

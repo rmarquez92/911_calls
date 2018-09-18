@@ -4,6 +4,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.dates as mdates
 
+###
+### PLOTS ARE FUNCTIONS IN ORDER TO MANAGE
+### NUMBER OF PLOTS AND FIGURES ACTIVE AT
+### ANY GIVEN TIME
+###
+
 df = pd.read_csv('911.csv')
 
 #BASIC QUESTIONS

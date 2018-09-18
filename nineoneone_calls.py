@@ -81,3 +81,16 @@ def calls_over_time(d_f,reason=None):
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %y'))
     plt.tight_layout()
     plt.show()
+
+
+#HEATMAPS
+df2 = df.groupby(['Day of Week','Hour']).count()['Reason'].unstack()
+df3 = df.groupby(['Day of Week','Month']).count()['Reason'].unstack()
+
+def hm(d_f):
+    sns.heatmap(data=d_f,annot=False,cmap='Blues_r')
+    plt.show()
+
+def clust(d_f):
+    sns.clustermap(d_f, cmap='Blues_r')
+    plt.show()
